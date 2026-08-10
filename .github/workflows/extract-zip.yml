@@ -1,7 +1,10 @@
-name: Extract Project ZIP
+name: Extract Mojilo Manish Project
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: write
@@ -14,19 +17,39 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Find ZIP file
+        id: find_zip
+        shell: bash
+        run: |
+          ZIP_FILE=$(find . -type f -name "*.zip" \
+            -not -path "./.git/*" \
+            | head -n 1)
+
+          if [ -n "$ZIP_FILE" ]; then
+            echo "ZIP found: $ZIP_FILE"
+            echo "zip_file=$ZIP_FILE" >> "$GITHUB_OUTPUT"
+            echo "found=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No ZIP file found."
+            echo "found=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Extract ZIP
+        if: steps.find_zip.outputs.found == 'true'
+        shell: bash
+        run: |
+          ZIP_FILE="${{ steps.find_zip.outputs.zip_file }}"
 
           mkdir -p extracted
           unzip -o "$ZIP_FILE" -d extracted
 
-          # Copy project files and folders
-          # Do NOT copy .github because GitHub Actions
-          # cannot push workflow files using the default token.
-          shopt -s dotglob
-          for item in extracted/*; do
-            name=$(basename "$item")
+          shopt -s dotglob nullglob
 
-            if [ "$name" != ".github" ]; then
-              cp -r "$item" .
+          for item in extracted/*; do
+            NAME=$(basename "$item")
+
+            if [ "$NAME" != ".git" ] && [ "$NAME" != ".github" ]; then
+              cp -rf "$item" .
             fi
           done
 
@@ -34,6 +57,7 @@ jobs:
           rm -f "$ZIP_FILE"
 
       - name: Commit extracted project
+        shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
