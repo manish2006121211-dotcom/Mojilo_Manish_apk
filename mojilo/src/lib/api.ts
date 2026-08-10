@@ -3,7 +3,7 @@ import { User, Test, Question, PDFMetadata, AppSettings, TestResult } from '../t
 const TOKEN_KEY = 'mojilo_tet1_token';
 const DEVICE_ID_KEY = 'mojilo_tet1_device_id';
 
-const API_BASE_URL = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+const API_BASE_URL = 'https://mojilo-manish-backend.onrender.com';
 
 export function apiUrl(url: string): string {
   if (/^https?:\/\//i.test(url)) return url;
