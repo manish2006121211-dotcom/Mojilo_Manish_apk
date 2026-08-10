@@ -20,20 +20,30 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: npm
+          node-version: 22
+
+      - name: Check project
+        run: |
+          echo "Repository files:"
+          ls -la
+          echo "Project folder:"
+          ls -la Mojilo_Manish_apk
 
       - name: Install dependencies
+        working-directory: ./Mojilo_Manish_apk
         run: npm install
 
       - name: Build web app
+        working-directory: ./Mojilo_Manish_apk
         run: npm run build
 
       - name: Install Capacitor
+        working-directory: ./Mojilo_Manish_apk
         run: |
           npm install @capacitor/core @capacitor/cli @capacitor/android
 
       - name: Create Capacitor config
+        working-directory: ./Mojilo_Manish_apk
         run: |
           cat > capacitor.config.ts <<'EOF'
           import type { CapacitorConfig } from '@capacitor/cli';
@@ -51,9 +61,11 @@ jobs:
           EOF
 
       - name: Add Android platform
+        working-directory: ./Mojilo_Manish_apk
         run: npx cap add android
 
       - name: Sync Android
+        working-directory: ./Mojilo_Manish_apk
         run: npx cap sync android
 
       - name: Setup Java
@@ -63,11 +75,11 @@ jobs:
           java-version: '17'
 
       - name: Build APK
-        working-directory: android
+        working-directory: ./Mojilo_Manish_apk/android
         run: ./gradlew assembleDebug --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: Mojilo-Manish-APK
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path: Mojilo_Manish_apk/android/app/build/outputs/apk/debug/app-debug.apk
