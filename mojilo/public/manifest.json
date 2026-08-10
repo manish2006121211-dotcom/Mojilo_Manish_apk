@@ -1,0 +1,36 @@
+{
+  "short_name": "મોજીલો મનીષ",
+  "name": "મોજીલો મનીષ – TET-1 પોર્ટલ",
+  "description": "ગુજરાત TET-1 શિક્ષક પાત્રતા કસોટી તૈયારી પોર્ટલ",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon.jpg",
+      "type": "image/jpeg",
+      "sizes": "192x192 512x512",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "type": "image/png",
+      "sizes": "180x180 512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#0b1329",
+  "theme_color": "#0b1329",
+  "display": "standalone",
+  "orientation": "portrait"
+}

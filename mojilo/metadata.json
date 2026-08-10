@@ -1,0 +1,6 @@
+{
+  "name": "Mojilo Manish – TET-1",
+  "description": "TET-1 પરીક્ષાની તૈયારી માટેની ઑનલાઇન ટેસ્ટ અને પીડીએફ અભ્યાસ સામગ્રી એપ્લિકેશન",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
