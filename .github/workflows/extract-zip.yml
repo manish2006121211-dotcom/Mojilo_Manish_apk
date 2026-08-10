@@ -28,8 +28,17 @@ jobs:
           mkdir -p extracted
           unzip -o "$ZIP_FILE" -d extracted
 
-          find extracted -mindepth 1 -maxdepth 1 -type d -exec sh -c 'cp -r "$1"/. ./' _ {} \;
-          find extracted -mindepth 1 -maxdepth 1 -type f -exec cp -f {} . \;
+          # Copy project files and folders
+          # Do NOT copy .github because GitHub Actions
+          # cannot push workflow files using the default token.
+          shopt -s dotglob
+          for item in extracted/*; do
+            name=$(basename "$item")
+
+            if [ "$name" != ".github" ]; then
+              cp -r "$item" .
+            fi
+          done
 
           rm -rf extracted
           rm -f "$ZIP_FILE"
